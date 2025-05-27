@@ -27,18 +27,19 @@ It allows you to track your T-shirt stock using SKUs and manage inventory with e
    git clone https://github.com/waemsiey/tshirt-inventory.git
    cd tshirt-inventory
 2. Create and activate a Python virtual environment:
-   python -m venv venv
-   On Windows PowerShell:
-  .\venv\Scripts\activate
-   On macOS/Linux:
-   source venv/bin/activate
-
-4. Install the virtual environment
+      python -m venv venv
+      On Windows PowerShell:
+   ```bash
+           \venv\Scripts\activate
+   
+3. Install the virtual environment
+   ```bash
      pip install -r requirements.txt
 
-5. Set up postgres database
+4. Set up postgres database
 
-6. Run the FastAPI application
+5. Run the FastAPI application
+   ```bash
     uvicorn app.main:app --reload
-7. Open browser go to:
+6. Open browser go to:
    http://127.0.0.1:8000/docs

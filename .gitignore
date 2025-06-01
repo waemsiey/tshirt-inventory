@@ -1,8 +1,8 @@
 #env file
-.env
+app/.env
 
 #ignore venv
-venv/
+app/venv/
 
 #ignore pycache
 *.pyc

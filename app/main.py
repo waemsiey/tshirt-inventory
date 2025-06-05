@@ -1,6 +1,7 @@
 #API entry point all the routes are defined here
-from typing import List
-from fastapi import FastAPI, Depends
+import uvicorn
+from typing import List, Optional
+from fastapi import FastAPI, Depends, Request
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
 from database import SessionLocal, engine, Base
@@ -9,8 +10,19 @@ import crud.order_crud as ocrud
 from service.order_service import place_order
 from schemas import Product
 
+from fastapi.middleware.cors import CORSMiddleware #for CORS support
+
+
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Allows all origins, you can specify a list of allowed origins
+    allow_credentials=True,
+    allow_methods=["*"],  # Allows all methods (GET, POST, PUT, DELETE, etc.)
+    allow_headers=["*"],  # Allows all headers
+)
 
 models.Base.metadata.create_all(bind=engine) # Create the database tables
 
@@ -35,7 +47,14 @@ def create_product(product: schemas.ProductCreate, db: Session = Depends(get_db)
 @app.get("/products" , response_model=List[Product])
 def get_products(db: Session = Depends(get_db)):
     return pcrud.get_products(db=db)
-    
+
+#filter products by name or color
+@app.get("/search-product" , response_model=List[Product])
+def search_products(
+    search: Optional[str] = None,
+    db: Session = Depends(get_db)
+):
+    return pcrud.search_products(db=db, search=search)
 
 #route to update an item
 @app.put("/products/{product_id}")
@@ -54,3 +73,18 @@ def create_order(order: schemas.OrderCreate, db: Session = Depends(get_db)):
 @app.get("/orders")
 def get_orders(db: Session = Depends(get_db)):
     return ocrud.get_orders(db=db)
+
+@app.get("/user-info")
+async def log_info(request: Request):
+    ip = request.headers.get("X-Forwarded-For") or request.client.host
+    ua = request.headers.get("User-Agent")
+    lang = request.headers.get("Accept-Language")
+
+    print(f"IP: {ip}")
+    print(f"User-Agent: {ua}")
+    print(f"Language: {lang}")
+
+    return {"message": "Info logged"}
+
+if __name__== "__main__":
+    uvicorn.run(app, host="127.0.0.1", port=8000)

@@ -3,6 +3,8 @@ from sqlalchemy.orm import Session , joinedload
 from models import Product , Variants
 from schemas import ProductCreate
 from datetime import datetime
+from typing import Optional
+from sqlalchemy import or_
 
 #Create
 def create_product(db: Session, product: ProductCreate):
@@ -34,6 +36,35 @@ def create_product(db: Session, product: ProductCreate):
 def get_products(db: Session):
     return db.query(Product).options(joinedload(Product.variants)).all()
 
+#returns product by color seach or name search
+def search_products(db: Session, search: Optional[str] = None):
+    query = (
+        db.query(Product)
+        .join(Variants)
+        .options(joinedload(Product.variants))
+        .filter(
+            or_(
+                Product.name.ilike(f"%{search}%"),
+                Variants.color.ilike(f"%{search}%")
+            )
+        )
+        .distinct()
+    ) if search else db.query(Product).options(joinedload(Product.variants))
+
+    products = query.all()
+
+    if search:
+        search_lower = search.lower()
+        for product in products:
+            product.variants = [
+                v for v in product.variants
+                if search_lower in (v.color or '').lower() or search_lower in (product.name or '').lower()
+            ]
+
+    # Filter out products with no matching variants (optional)
+    products = [p for p in products if p.variants]
+
+    return products
 #Update
 def update_product(db: Session, product_id: int, product: ProductCreate):
     db_product = db.query(Product).filter(Product.product_id == product_id).first()

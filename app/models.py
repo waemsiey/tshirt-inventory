@@ -31,6 +31,7 @@ class Variants(Base):
     updated_at = Column(DateTime, default=datetime.now, onupdate=datetime.now, nullable=False)
 
     product = relationship("Product", back_populates="variants")
+    
 
 class Orders(Base):
     __tablename__ = 'orders'

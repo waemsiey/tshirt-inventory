@@ -9,7 +9,7 @@ import models, schemas, crud.product_crud as pcrud
 import crud.order_crud as ocrud
 from service.order_service import place_order
 from schemas import Product
-
+import os
 from fastapi.middleware.cors import CORSMiddleware #for CORS support
 
 

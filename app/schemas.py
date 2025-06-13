@@ -22,7 +22,7 @@ class Variant(VariantBase):
 #Product Schema
 class ProductBase(BaseModel):
     name: str
-    description: str = Field(default=None, max_length=500)
+    description: Optional[str] = Field(default=None, max_length=500)
 class ProductCreate(ProductBase):
     variants: List[VariantCreate]
 class Product(ProductBase):

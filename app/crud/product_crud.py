@@ -1,6 +1,6 @@
 #Database logic 
 from sqlalchemy.orm import Session , joinedload
-from models import Product , Variants
+from models import Product , Variant
 from schemas import ProductCreate
 from datetime import datetime
 from typing import Optional
@@ -10,7 +10,8 @@ from sqlalchemy import or_
 def create_product(db: Session, product: ProductCreate):
     db_product = Product(
         name=product.name,
-        description=product.description,
+        color=product.color,
+        image_url=product.image_url, 
         created_at=datetime.now()
     )
 
@@ -19,12 +20,12 @@ def create_product(db: Session, product: ProductCreate):
     db.refresh(db_product)
 
     for variant in product.variants:
-        db_variant = Variants(
+        db_variant = Variant(
             product_id=db_product.product_id,
             size=variant.size,
-            color=variant.color,
             quantity=variant.quantity,
-            price=variant.price,
+            selling_price=variant.selling_price,
+            item_cost=variant.item_cost,
             updated_at=datetime.now()
         )
         db.add(db_variant)
@@ -40,12 +41,12 @@ def get_products(db: Session):
 def search_products(db: Session, search: Optional[str] = None):
     query = (
         db.query(Product)
-        .join(Variants)
+        .join(Variant)
         .options(joinedload(Product.variants))
         .filter(
             or_(
                 Product.name.ilike(f"%{search}%"),
-                Variants.color.ilike(f"%{search}%")
+                Product.color.ilike(f"%{search}%")
             )
         )
         .distinct()
@@ -65,6 +66,11 @@ def search_products(db: Session, search: Optional[str] = None):
     products = [p for p in products if p.variants]
 
     return products
+
+#Count products
+def count_products(db: Session):
+    return db.query(Variant).count()
+
 #Update
 def update_product(db: Session, product_id: int, product: ProductCreate):
     db_product = db.query(Product).filter(Product.product_id == product_id).first()
@@ -75,7 +81,7 @@ def update_product(db: Session, product_id: int, product: ProductCreate):
 
     db.commit()
     db.refresh(db_product)
-    return db_product
+    return db_product   
 
 #Delete
 def delete_product(db: Session, product_id: int):
@@ -93,12 +99,13 @@ def create_variant(db: Session, product_id: int, variant):
     if not db_product:
         return None
 
-    db_variant = Variants(
+    db_variant = Variant(
         size=variant.size,
-        color=variant.color,
         quantity=variant.quantity,
-        price=variant.price,
-        updated_at=datetime.now()
+        selling_price=variant.selling_price,
+        item_cost=variant.item_cost,
+        updated_at=datetime.now(),
+        image_url=variant.image_url,
     )
 
     db.commit()
@@ -112,9 +119,9 @@ def update_variant(db: Session, variant_id: int, variant):
         return None
 
     db_variant.size = variant.size
-    db_variant.color = variant.color
     db_variant.quantity = variant.quantity
-    db_variant.price = variant.price
+    db_variant.selling_price = variant.selling_price
+    db_variant.item_cost = variant.item_cost
     db_variant.updated_at = datetime.now()
 
     db.commit()

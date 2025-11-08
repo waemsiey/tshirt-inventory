@@ -82,7 +82,20 @@ You can access the deployed API here:
    
 ### API Overview
 
-**INVENTORY PRODUCTS**  
+**INVENTORY PRODUCTS** 
+#
 ![Inventory Products](images/inv-products.jpg)
+
+#
+![Inventory Add Products](images/inv-add.jpg)
+
+**ORDERS**  
+#
+![POS](images/pos-root.jpg)
+#
+![VIEW ORDER](images/pos-order.jpg)
+#
+![CREATE ORDER](images/pos-create.jpg)
+
 
 

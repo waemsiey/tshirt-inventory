@@ -177,7 +177,7 @@ async def log_info(request: Request):
 
 @app.get("/")
 def read_root():
-    return {"message": "Welcome to the E-Commerce API"}
+    return {"message": "Welcome to the Inventory API"}
 
 @app.post("/debug-order")
 async def debug_order(

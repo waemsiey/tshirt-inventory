@@ -1,3 +1,8 @@
+> **Disclaimer:** This is a personal project developed for practice and demonstration purposes.  
+> It is not intended for commercial use and may still be under development.
+>  **Dummy/sample data** was use for API response Testing: No real data is used. 
+
+
 ## 🚧 Project Status
 This project is currently under development.  
 Planned next steps:
@@ -93,7 +98,7 @@ You can access the deployed API here:
 #
 ![POS](images/pos-root.jpg)
 #
-![VIEW ORDER](images/pos-order.jpg)
+![VIEW ORDER](images/pos-orders.jpg)
 #
 ![CREATE ORDER](images/pos-create.jpg)
 

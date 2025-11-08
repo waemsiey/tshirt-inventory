@@ -79,10 +79,10 @@ You can access the deployed API here:
    ```bash
     uvicorn app.main:app --reload
 
-![API Overview]
-**INVENTORY PRODUCTS**
-(images/inv-products.jpg)
+   
+### API Overview
 
-
+**INVENTORY PRODUCTS**  
+![Inventory Products](images/inv-products.jpg)
 
 

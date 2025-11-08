@@ -1,6 +1,6 @@
 > **Disclaimer:** This is a personal project developed for practice and demonstration purposes.  
 > It is not intended for commercial use and may still be under development.
->  **Dummy/sample data** was use for API response Testing: No real data is used. 
+>  **Dummy/sample data** was use for API response Testing
 
 
 ## 🚧 Project Status

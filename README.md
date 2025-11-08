@@ -86,6 +86,8 @@ You can access the deployed API here:
 
    
 ### API Overview
+> **Note:** The image below shows the **frontend view** for demonstration purposes.  
+> API requests and responses are handled via the backend.
 
 **INVENTORY PRODUCTS** 
 #

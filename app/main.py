@@ -17,7 +17,7 @@ from storage import upload_image_to_supabase
 from models import Product, Variant, Service
 
 # Initialize FastAPI
-app = FastAPI(title="E-Commerce API", version="1.0.0")
+app = FastAPI(title="Inventory-API", version="1.0.0")
 
 # CORS Configuration
 app.add_middleware(
